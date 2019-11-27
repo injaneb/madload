@@ -12,3 +12,4 @@ public/css/*.css.map
 
 # npm & pnpm
 pnpm-debug.log
+pnpm-lock.yaml
