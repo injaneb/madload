@@ -1,0 +1,25 @@
+footer {
+  // width: 100%;
+  position: absolute;
+  bottom: 0;
+  // text-align: center;
+  padding: 10px;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  user-select: none;
+  i.heart-icon {
+    margin: 0 5px;
+    cursor: default;
+    svg {
+      fill: lighten($redColor, 15%);
+      width: 17px;
+      height: 17px;
+      animation: heartBeat 1.3s linear infinite alternate;
+    }
+  }
+  .author-name {
+    display: inline-block;
+    font-weight: bold;
+    @include underlineEffect;
+  }
+}

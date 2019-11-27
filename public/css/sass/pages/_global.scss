@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  // scrollbar-width: none;
+  // outline: none;
+}
+
+body {
+  background-color: $bgColor;
+  color: $whiteColor;
+  -webkit-tap-highlight-color: transparent;
+  // overflow: hidden;
+  // scroll-behavior: smooth;
+  font: {
+    family: Lato, sans-serif, Arial;
+    size: 16px;
+  }
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+input,
+button,
+textarea {
+  outline: none;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  box-shadow: 0 0 0 100% $whiteColor inset !important;
+  -webkit-text-fill-color: $bgColor !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img,
+button {
+  user-select: none;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  line-height: 1.7;
+}
+
+i {
+  font-style: normal;
+  cursor: pointer;
+}
+
+noscript {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bgColor;
+  color: $whiteColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+  text-transform: uppercase;
+  font: {
+    size: 2rem;
+    weight: bold;
+  }
+}
+
+// ::selection {
+//   color: $whiteColor;
+//   background-color: $mainColor;
+// }
+
+// ::-webkit-scrollbar {
+//   display: none;
+//   width: 0;
+//   background-color: transparent;
+// }

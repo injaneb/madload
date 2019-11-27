@@ -1,0 +1,20 @@
+gulpfile.js
+
+README.md
+LICENSE
+
+# dot files
+.gitignore
+.eslintrc
+.eslintignore
+.editorconfig
+
+# sass
+public/css/sass
+public/css/*.scss
+public/css/*.sass
+public/css/*.css.map
+
+
+# js
+public/js/home.js

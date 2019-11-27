@@ -4,12 +4,7 @@ tests/
 *.env
 *.db
 
-# sass
-public/css/sass
-public/css/*.scss
-public/css/*.sass
-public/css/*.css.map
-
 # npm & pnpm
+package-lock.json
 pnpm-debug.log
 pnpm-lock.yaml

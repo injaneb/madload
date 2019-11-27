@@ -1,0 +1,36 @@
+@keyframes heartBeat {
+  0% {
+    @include prefixer(transform, scale(1), webkit moz o ms);
+  }
+  100% {
+    @include prefixer(transform, scale(1.3), webkit moz o ms);
+  }
+}
+
+@keyframes linearGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes spinner {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// @include keyFrame(spin) {
+//   0% {
+//     @include prefixer(transform, rotate(0deg), webkit moz o ms);
+//   }
+//   100% {
+//     @include prefixer(transform, rotate(360deg), webkit moz o ms);
+//   }
+// }
+

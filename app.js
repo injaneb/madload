@@ -24,30 +24,22 @@ app.set('view options', {
 });
 app.set('views', path.join(__dirname, 'views'));
 
-// helment: set some security headers
+// helmet: set some security headers
 app.use(require('helmet')());
 
 // other headers
-// app.use((req, res, next) => {
-//   res.set({
-//     'Content-Security-Policy': 'default-src \'self\'; img-src *',
-//     'Cache-Control': 'no-cache',
-//     'Pragma': 'no-cache',
-//     'Expires': '-1',
-//   });
-//   next();
-// });
+app.use((req, res, next) => {
+  res.set({
+    'Content-Security-Policy': 'default-src \'self\'; img-src *; media-src *',
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Expires': '-1',
+  });
+  next();
+});
 
 // set compression
 app.use(require('compression')());
-
-// morgan: errors logger
-app.use(require('morgan')('tiny', {
-  // log errors only
-  skip: (req, res) => res.statusCode < 400,
-  // puts the logs in errors.log file
-  stream: fs.createWriteStream(path.join(__dirname, 'logs', 'req-errors.log'), { flags: 'a' })
-}));
 
 // API route
 app.use('/api', require('./routes/api'));

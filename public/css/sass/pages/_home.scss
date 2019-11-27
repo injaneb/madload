@@ -1,0 +1,297 @@
+main {
+  margin-top: 10%;
+  @include media('>=tablet', '<desktop') {
+    margin-top: 15%;
+  }
+  @include media('>=phone', '<tablet') {
+    margin-top: 20%;
+  }
+  @include media('<phone') {
+    margin-top: 30%;
+  }
+  .input-box {
+    position: relative;
+    margin: auto;
+    input,
+    button {
+      height: 42px;
+      font-size: 20px;
+      border-width: 0;
+    }
+    input {
+      width: 85%;
+      padding: 15px 38px 15px 15px;
+      background-color: lighten($bgColor, 10%);
+      color: $whiteColor;
+      border-top-left-radius: $borderRadiusValue;
+      border-bottom-left-radius: $borderRadiusValue;
+    }
+    button {
+      width: 15%;
+      background-color: $mainColor;
+      color: $whiteColor;
+      border-top-right-radius: $borderRadiusValue;
+      border-bottom-right-radius: $borderRadiusValue;
+      transition: background-color .5s ease;
+      &[disabled] {
+        background-color: lighten($mainColor, 25%);
+        cursor: default;
+      }
+    }
+    i {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 27%;
+      right: 16%;
+      overflow: hidden;
+      z-index: 2;
+      @include media('<phone') {
+        display: none !important;
+      }
+      &#clipPaste {
+        > svg {
+          fill: #fff;
+        }
+      }
+      &#clrInput {
+        transition: transform .5s ease;
+        > svg {
+          fill: lighten(#f00, 15%);
+        }
+      }
+    }
+  }
+}
+
+#output {
+  margin: .5% auto;
+  .video-card {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    @include media('<=575px') {
+      flex-direction: column;
+      .thumbnail,
+      .info,
+      .download {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 2% auto;
+        text-align: center;
+      }
+    }
+    .thumbnail {
+      width: 272px;
+      height: 180px;
+      position: relative;
+      border-radius: $borderRadiusValue;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: $borderRadiusValue;
+        object-fit: cover;
+      }
+      .play-video {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        > svg {
+          fill: $darkMarkerColor;
+          transition: fill .5s ease;
+          &:hover {
+            fill: darken($darkMarkerColor, 50%);
+          }
+        }
+      }
+      .duration {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 5px;
+        background-color: lighten($darkMarkerColor, 5%);
+        border-bottom-right-radius: $borderRadiusValue;
+        border-top-left-radius: $borderRadiusValue;
+        letter-spacing: 1px;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+    .info {
+      display: flex;
+      flex-flow: column nowrap;
+      width: calc(100% - 272px);
+      padding-left: 12px;
+      .title,
+      .author {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        letter-spacing: 1.1px;
+      }
+      .title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+      .author {
+        font-size: .7rem;
+        font-weight: bold;
+        color: #ddd;
+        transition: color .5s ease;
+        &:hover {
+          color: $whiteColor;
+        }
+      }
+      .download {
+        width: 70%;
+        height: 45px;
+        margin-top: 5%;
+        position: relative;
+        text-align: center;
+        @include media('>=tablet', '<desktop') {
+          width: 78%;
+        }
+        @include media('<tablet') {
+          width: 100%;
+        }
+        .formats-list,
+        .get {
+          display: block;
+          float: left;
+          border: 1.5px solid $mainColor;
+          cursor: pointer;
+        }
+        .formats-list {
+          width: 70%;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+          color: $mainColor;
+          background-color: transparent;
+          border-top-left-radius: $borderRadiusValue;
+          border-bottom-left-radius: $borderRadiusValue;
+          user-select: none;
+          transition: height .2s ease;
+          &:not([data-list-open]) {
+            height: 100%;
+            overflow: hidden;
+            li:not(:first-of-type) {
+              display: none;
+            }
+          }
+          &[data-list-open] {
+            height: auto;
+            border-bottom-right-radius: $borderRadiusValue;
+            + .drop-icon {
+              transform: rotate(180deg);
+            }
+            li:not(:last-of-type) {
+              border-bottom: 1px solid $mainColor;
+            }
+          }
+          li {
+            width: 100%;
+            font-size: 1rem;
+            line-height: 42px;
+            word-spacing: 3px;
+            // text-transform: uppercase;
+            transition: padding-left .5s ease;
+            &:not(:first-of-type):hover {
+              padding-left: 7px;
+            }
+            &.no-audio,
+            &.no-video {
+              position: relative;
+              &::after {
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: calc(50% - 10px);
+                left: 10px;
+                pointer-events: none;
+              }
+            }
+            &.no-audio::after {
+              @include background-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#{$redColor}" d="M15 8.59l-2.12-2.13-1.42 1.42L13.6 10l-2.13 2.12 1.42 1.42L15 11.4l2.12 2.13 1.42-1.42L16.4 10l2.13-2.12-1.42-1.42L15 8.6zM4 7H0v6h4l5 5V2L4 7z"/></svg>');
+            }
+            &.no-video::after {
+              @include background-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#{$redColor}" d="M12.81 4.36l-1.77 1.78a4 4 0 00-4.9 4.9l-2.76 2.75C2.06 12.79.96 11.49.2 10a11 11 0 0112.6-5.64zm3.8 1.85c1.33 1 2.43 2.3 3.2 3.79a11 11 0 01-12.62 5.64l1.77-1.78a4 4 0 004.9-4.9l2.76-2.75zm-.25-3.99l1.42 1.42L3.64 17.78l-1.42-1.42L16.36 2.22z"/></svg>');
+            }
+          }
+        }
+        .drop-icon {
+          width: 25px;
+          height: 25px;
+          position: absolute;
+          top: 25%;
+          right: 34%;
+          transition: transform .4s ease-out;
+          pointer-events: none;
+          > svg {
+            fill: $mainColor;
+          }
+        }
+        .get {
+          width: 30%;
+          height: 100%;
+          font-size: 1.25rem;
+          color: $whiteColor;
+          background-color: $mainColor;
+          border-top-right-radius: $borderRadiusValue;
+          border-bottom-right-radius: $borderRadiusValue;
+        }
+      }
+    }
+  }
+  .loading {
+    width: 60px;
+    height: 60px;
+    margin: 5% auto;
+    border-top: 2px solid $mainColor;
+    border-bottom: 2px solid transparent;
+    border-radius: 50%;
+    animation: spinner 1s infinite linear;
+    overflow: hidden;
+    cursor: progress;
+  }
+  .errbox {
+    margin: 5% auto;
+    text-align: center;
+    overflow: hidden;
+    .err-icon > svg {
+      width: 50px;
+      height: 50px;
+      fill: $redColor;
+    }
+    .err-msg {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+
+main .input-box,
+#output {
+  width: 60%;
+  @include media('>=tablet', '<desktop') {
+    width: 70%;
+  }
+  @include media('>=phone', '<tablet') {
+    width: 90%;
+  }
+  @include media('<phone') {
+    width: 100%;
+  }
+}
+
+
+#player {
+
+}

@@ -1,0 +1,35 @@
+.top-linear {
+  height: 5px;
+  background-color: $mainColor;
+  background-image: generateLinear();
+  background-size: 400% 400%;
+  animation: linearGradient 15s linear infinite alternate
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  user-select: none;
+  > h1 {
+    @include media('<=phone') {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    span {
+      color: $mainColor;
+      font-size: 1.1em;
+    }
+  }
+  > nav {
+    @include media('<=phone') {
+      display: none;
+    }
+    a {
+      font-size: 1.2em;
+      @include underlineEffect;
+    }
+  }
+}
