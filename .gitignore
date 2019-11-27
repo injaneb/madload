@@ -1,0 +1,14 @@
+node_modules/
+.vscode/
+tests/
+*.env
+*.db
+
+# sass
+public/css/sass
+public/css/*.scss
+public/css/*.sass
+public/css/*.css.map
+
+# npm & pnpm
+pnpm-debug.log
