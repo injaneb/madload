@@ -15,18 +15,17 @@
     "deploy": "git add . && git commit -m 'stuff...' && git push heroku master"
   },
   "dependencies": {
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "ejs": "^2.7.4",
+    "compression": "~1.7.4",
+    "cors": "~2.8.5",
+    "dotenv": "~8.2.0",
+    "ejs": "~2.7.4",
     "express": "~4.17.1",
-    "helmet": "^3.21.2",
-    "youtube-dl": "^2.1.0"
+    "helmet": "~3.21.2",
+    "youtube-dl": "~2.1.0"
   },
   "devDependencies": {
     "gulp": "~4.0.2",
     "gulp-autoprefixer": "^7.0.1",
-    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^6.0.0",
     "gulp-livereload": "^4.0.2",
     "gulp-nodemon": "^2.4.2",
@@ -38,7 +37,7 @@
   },
   "keywords": [
     "MadLoad",
-    "Downloader"
+    "Download"
   ],
   "author": "Osama",
   "license": "MIT"
