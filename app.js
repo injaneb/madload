@@ -1,19 +1,23 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
 
 // body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// set static folder for js/css/img
+// static files
 app.use('/assets', express.static(path.join(__dirname, 'public')));
 
-// view template stuff
+// ejs view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.set('view options', {
   delimiter: '?',
   localsName: 'data',
@@ -21,30 +25,30 @@ app.set('view options', {
   compileDebug: false,
   rmWhitespace: true
 });
-app.set('views', path.join(__dirname, 'views'));
 
-// helmet: set some security headers
-app.use(require('helmet')());
+app.use(morgan('tiny'));
 
-// other headers
-app.use((req, res, next) => {
-  res.set({
-    'Content-Security-Policy': 'default-src \'self\'; img-src *; media-src *',
-    'Cache-Control': 'no-cache',
-    'Pragma': 'no-cache',
-    'Expires': '-1',
-  });
-  next();
-});
+app.use(helmet());
+app.use(helmet.noCache());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    imgSrc: ['*'],
+    mediaSrc: ['*']
+  }
+}));
 
-// set compression
-app.use(require('compression')());
+app.use(cors());
+
+app.use(compression());
 
 // API route
 app.use('/api', require('./routes/api'));
 
+// home page
 app.get('/', (req, res) => res.render('index'));
 
-app.use((req, res) => res.status(404).render('404', { url: req.path }));
+// not found (404)
+app.use((req, res) => res.status(404).render('404', {  url: req.path }));
 
 app.listen(PORT, () => console.log(`running on: ${PORT}`));
