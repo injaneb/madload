@@ -8,7 +8,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": "node app",
+    "start": "node app.js",
     "dev": "gulp watch",
     "lint": "eslint",
     "update:ytdl": "node update-youtube-dl",
@@ -21,6 +21,7 @@
     "ejs": "~2.7.4",
     "express": "~4.17.1",
     "helmet": "~3.21.2",
+    "morgan": "^1.9.1",
     "youtube-dl": "~2.1.0"
   },
   "devDependencies": {
