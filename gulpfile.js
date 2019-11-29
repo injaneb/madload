@@ -5,7 +5,6 @@ const autoprefixer = require('gulp-autoprefixer');
 const eslint       = require('gulp-eslint');
 const terser       = require('gulp-terser');
 const rename       = require('gulp-rename');
-// const concat       = require('gulp-concat');
 const nodemon      = require('gulp-nodemon');
 const livereload   = require('gulp-livereload');
 const noop         = require('gulp-noop');
@@ -13,7 +12,7 @@ const noop         = require('gulp-noop');
 sass.compiler = require('node-sass');
 dotenv.config();
 
-
+// is production env
 const isProd = process.env.ENV_MODE === 'development';
 
 exports.css = done => {
