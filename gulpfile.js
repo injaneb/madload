@@ -56,7 +56,6 @@ exports.localhost.displayName = 'localhost';
 exports.watch = done => {
   livereload.listen();
 
-  gulp.watch('.env', dotenv.config);
   gulp.watch('public/css/**/*.scss', exports.css);
   gulp.watch(['public/js/**/*.js', '!public/js/**/*.min.js'], exports.js);
 
