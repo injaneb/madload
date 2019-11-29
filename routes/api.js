@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const ytdl = require('youtube-dl');
 const logger = require('../lib/logger');
