@@ -1,4 +1,3 @@
-const dotenv       = require('dotenv');
 const gulp         = require('gulp');
 const sass         = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
@@ -10,10 +9,9 @@ const livereload   = require('gulp-livereload');
 const noop         = require('gulp-noop');
 
 sass.compiler = require('node-sass');
-dotenv.config();
 
 // is production env
-const isProd = process.env.ENV_MODE === 'development';
+const isProd = true;
 
 exports.css = done => {
   gulp.src('public/css/**/*.scss')
