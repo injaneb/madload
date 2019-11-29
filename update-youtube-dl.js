@@ -1,10 +1,12 @@
+'use strict';
+
+const downloader = require('youtube-dl/lib/downloader');
 const path = require('path');
-const { execFile } = require('child_process');
 
-const ytdlexe = path.join(__dirname, 'node_modules', 'youtube-dl', 'bin', 'youtube-dl.exe');
+const binDir = path.join(__dirname, 'node_modules', 'youtube-dl', 'bin');
 
-execFile(ytdlexe, ['-U'], (err, data) => {
+downloader(binDir, (err, done) =>{
   if (err) throw err;
 
-  console.log(data);
+  console.log(done);
 });
