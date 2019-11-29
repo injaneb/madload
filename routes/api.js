@@ -1,7 +1,6 @@
 const express = require('express');
 const ytdl = require('youtube-dl');
 const logger = require('../lib/logger');
-
 const router = express.Router();
 
 const supported = [
@@ -12,8 +11,6 @@ const supported = [
   'facebook.com',
   'instagram.com'
 ];
-
-router.use(require('cors')());
 
 router.get('/test', (req, res) => {
   ytdl.getInfo(req.query.url, (err, info) => {
@@ -55,33 +52,31 @@ router.all('/', (req, res) => {
       url: info.webpage_url,
       id: info.display_id,
       thumbnail: info.thumbnail,
-      duration: info.duration.split(':').map(t => t < 10 ? t = `0${~~t}` : ~~t).join(':'),
       platform: info.extractor,
       author: {
         name: info.uploader,
         url: info.uploader_url
       },
-      dl: {
-        url: info.url,
-        ext: info.ext,
-        acodec: info.acodec,
-        vcodec: info.vcodec,
-        format: info.format,
-        formatId: info.format_id,
-        formatNote: info.format_note
-      }
+      formats: []
     };
 
+    // set duration
+    if (info.duration.indexOf(':') !== -1) {
+      data.duration = info.duration.split(':').map(t => t < 10 ? t = `0${~~t}` : ~~t).join(':');
+    } else {
+      data.duration = `0:${info.duration < 10 ? `0${~~info.duration}` : ~~info.duration}`;
+    }
+
     if (data.platform !== 'soundcloud') {
-      let formats = info.formats.filter(format => {
-       switch (data.platform) {
+      let formats = info.formats.filter(item => {
+        switch (data.platform) {
           case 'youtube':
-            if (format.format_note.startsWith('DASH') && parseInt(format)) return false;
-            if ((format.ext === 'mp4' || format.ext === 'webm') && (format.format_note === 'tiny' || format.vcodec === 'none')) return false;
+            if (item.format_note.startsWith('DASH')) return false;
+            if ((item.ext === 'mp4' || item.ext === 'webm') && (item.format_note === 'tiny' || item.vcodec === 'none')) return false;
           break;
 
           case 'twitter':
-            if (format.format_id.startsWith('hls')) return false;
+            if (item.format_id.startsWith('hls')) return false;
           break;
         }
 
@@ -89,35 +84,69 @@ router.all('/', (req, res) => {
       });
 
       if (formats.length > 1) {
-        data.formats = [];
-        formats.forEach((format, i) => {
+        formats.forEach((item, i) => {
+          // remove the id from the format
+          if (item.format.startsWith(item.format_id)) item.format = item.format.replace(`${item.format_id} - `, '').trim();
+
           data.formats[i] = {
-            url: format.url,
-            ext: format.ext,
-            acodec: format.acodec,
-            vcodec: format.vcodec,
-            format: format.format,
-            formatId: format.format_id,
-            formatNote: format.format_note
+            url: item.url,
+            ext: item.ext,
+            acodec: item.acodec,
+            vcodec: item.vcodec,
+            format: item.format,
+            formatId: item.format_id,
+            formatNote: item.format_note
           };
         });
-        // .sort((a, b) => ((a.acodec !== 'none' && a.vcodec !== 'none') && (b.acodec !== 'none' || b.vcodec !== 'none')) ? -1 : 1)
+      } else {
+        let item = formats[0];
+        data.formats[0] = {
+          url: item.url,
+          ext: item.ext,
+          acodec: item.acodec,
+          vcodec: item.vcodec,
+          format: item.format,
+          formatId: item.format_id,
+          formatNote: item.format_note
+        };
       }
+    } else {
+      data.formats[0] = {
+        url: info.url,
+        ext: info.ext
+      };
     }
-
 
     switch (data.platform) {
       case 'youtube':
+        // set thumbnail
         data.thumbnail = data.thumbnail.replace('hqdefault', 'mqdefault');
-        // resort the data.formats
+
+        // sort by the formatNote
         data.formats.sort((a, b) => parseInt(a.formatNote) > parseInt(b.formatNote) ? -1 : 1);
 
-        // move the audio (m4a format) up if its a music video
-        if (info.categories.includes('Music')) data.formats.unshift(data.formats.splice(data.formats.findIndex(format => format.ext === 'm4a'), 1)[0]);
+        // move best formats up
+        let frmt18 = data.formats.findIndex(item => item.formatId === '18');
+        let frmt22 = data.formats.findIndex(item => item.formatId === '22');
+
+        if (frmt18 !== -1) data.formats.unshift(data.formats.splice(frmt18, 1)[0]);
+        if (frmt22 !== -1) data.formats.unshift(data.formats.splice(frmt22, 1)[0]);
+
+        // move the audio up if its a music video
+        if (info.categories.includes('Music')) data.formats.unshift(data.formats.splice(data.formats.findIndex(item => item.ext === 'm4a'), 1)[0]);
        break;
 
       case 'soundcloud':
         data.thumbnail = data.thumbnail.replace('original', 'crop');
+      break;
+
+      case 'twitter':
+        // sort by width and height
+        data.formats.sort((a, b) => {
+          let ax = a.format.split('x');
+          let bx = b.format.split('x');
+          return (bx[1] - bx[0]) - (ax[1] - ax[0]);
+        });
       break;
     }
 
