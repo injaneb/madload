@@ -1,4 +1,4 @@
 # :rocket: MadLoad
 
-> Video downloader service based on [youtube-dl](/ytdl-org/youtube-dl)
+> Video downloader service based on [youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
