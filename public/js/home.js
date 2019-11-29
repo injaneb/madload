@@ -217,19 +217,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let item = document.createElement('li');
 
     // set the formats info
-    item.setAttribute('title', format.format);
     item.setAttribute('data-url', format.url);
     item.setAttribute('data-ext', format.ext);
     item.setAttribute('data-filename', filename.replace(/\|\\\/\*\+<>:\?"'/g, '_')); //  `${filename.replace(/\|\\\/\*\+<>:\?"'/g, '_')}.${format.ext}`
+    if (format.format) item.setAttribute('title', format.format);
 
     // set the item name
-    item.textContent = `${format.ext.toUpperCase()}`;
+    item.textContent = format.ext.toUpperCase();
 
-    // customize the the format note
+    // customize the the format name
     if (format.ext === 'm4a' || format.ext === 'mp3') {
       item.textContent += ' (audio)';
     } else if (format.formatNote) {
       item.textContent += ` (${format.formatNote})`;
+    } else if (format.format) {
+      item.textContent += ` (${format.format})`;
     }
 
     // add no-[audio/video] for formats
@@ -333,26 +335,28 @@ document.addEventListener('DOMContentLoaded', () => {
       // remove old formats list
       while (formatsList.firstElementChild) formatsList.removeChild(formatsList.firstElementChild);
 
-      if (data.formats && data.formats.length > 1) {
-        // show the drop[down/up] icon
-        dropIcon.hasAttribute('hidden') && dropIcon.removeAttribute('hidden');
+      if (data.formats) {
+        if (data.formats.length > 1) {
+          // show the drop[down/up] icon
+          dropIcon.hasAttribute('hidden') && dropIcon.removeAttribute('hidden');
 
-        // create formats elements
-        data.formats.forEach(format => {
-          setFormatItem(format, data.title, item => {
-            // selector
-            item.addEventListener('click', () => {
-              if (item === formatsList.firstElementChild) return;
-              formatsList.firstElementChild.insertAdjacentElement('beforebegin', item);
+          // create formats elements
+          data.formats.forEach(format => {
+            setFormatItem(format, `${data.title}.${format.ext}`, item => {
+              // selector
+              item.addEventListener('click', () => {
+                if (item === formatsList.firstElementChild) return;
+                formatsList.firstElementChild.insertAdjacentElement('beforebegin', item);
+              });
             });
           });
-        });
-      } else if (data.dl) {
-        // hide the drop[down/up] icon
-        !dropIcon.hasAttribute('hidden') && dropIcon.setAttribute('hidden', '');
+        } else {
+          // hide the drop[down/up] icon
+          !dropIcon.hasAttribute('hidden') && dropIcon.setAttribute('hidden', '');
 
-        // set the format item
-        setFormatItem(data.dl, data.title);
+          // set the format item
+          setFormatItem(data.formats[0], `${data.title}.${data.formats[0].ext}`);
+        }
       } else {
         showErrorMsg('connot get media data.');
       }
