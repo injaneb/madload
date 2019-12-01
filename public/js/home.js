@@ -201,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       downloadWrap  = videoCard.querySelector('.download');
 
   let thumbnailImg = thumbnailWrap.querySelector('img'),
+      vidDuration  = thumbnailWrap.querySelector('.duration'),
       infoTitle    = infoWrap.querySelector('.title a'),
       infoAuthor   = infoWrap.querySelector('.author a');
 
@@ -277,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     a.style.display = 'none';
     a.setAttribute('download', selected.getAttribute('data-filename'));
     a.setAttribute('href', selected.getAttribute('data-url'));
-    // a.setAttribute('target', '_blank');
+    a.setAttribute('target', '_blank');
 
     document.body.appendChild(a);
     a.click();
@@ -324,7 +325,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }).then(data => {
       if (!data || !data.ok) return showErrorMsg(data && data.err || 'error occurred when getting info.');
 
-      if (data.duration) thumbnailWrap.querySelector('.duration').textContent = data.duration;
+      if (data.duration) {
+        vidDuration.textContent = data.duration;
+        vidDuration.hasAttribute('hidden') && vidDuration.removeAttribute('hidden');
+      } else {
+        vidDuration.textContent = '';
+        !vidDuration.hasAttribute('hidden') && vidDuration.setAttribute('hidden', '');
+      }
 
       infoTitle.setAttribute('href', data.url);
       infoTitle.textContent = data.title;

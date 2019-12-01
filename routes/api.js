@@ -55,15 +55,20 @@ router.all('/', (req, res) => {
       url:       info.webpage_url,
       platform:  info.extractor,
       thumbnail: info.thumbnail,
-      duration:  info.duration && info.duration.includes(':')
-                  ? info.duration.split(':').map(t => t < 10 ? t = `0${~~t}` : ~~t).join(':')
-                  : `0:${info.duration < 10 ? `0${~~info.duration}` : ~~info.duration}` || null,
       author: {
         name: info.uploader,
         url:  info.uploader_url || url.match(/^(https?:\/\/){0,1}(www\.){0,1}[\d-.a-z]+\.[a-z]{2,5}\/[\d-.a-z]+/i)[0]
       },
       formats: []
     };
+
+    if (info.duration) {
+      if (info.duration.includes(':')) {
+        data.duration = info.duration.split(':').map(t => t < 10 ? t = `0${~~t}` : ~~t).join(':');
+      } else {
+        data.duration = `00:${info.duration < 10 ? `0${~~info.duration}` : ~~info.duration}`;
+      }
+    }
 
     if (data.platform !== 'soundcloud' && data.platform !== 'instagram') {
       data.formats = info.formats.map(item => {
