@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).then(data => {
       if (!data || !data.ok) return showErrorMsg(data && data.err || 'error occurred when getting info.');
 
-      thumbnailWrap.querySelector('.duration').textContent = data.duration;
+      if (data.duration) thumbnailWrap.querySelector('.duration').textContent = data.duration;
 
       infoTitle.setAttribute('href', data.url);
       infoTitle.textContent = data.title;
