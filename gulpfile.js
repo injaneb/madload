@@ -30,7 +30,7 @@ exports.js = done => {
   gulp.src(['public/js/**/*.js', '!public/js/**/*.min.js'])
       .pipe(eslint())
       .pipe(eslint.format())
-      // .pipe(eslint.failAfterError())
+      // eslint-disable-next-line camelcase
       .pipe(isProd ? terser({ output: { quote_style: 1 }}) : noop())
       .pipe(rename({ extname: '.min.js' }))
       .pipe(gulp.dest('public/js'))
@@ -47,6 +47,8 @@ exports.localhost = done => {
     ignore: [
       'node_modules/',
       'public/',
+      'views/',
+      'tests/',
       'update-youtube-dl.js',
       'gulpfile.js'
     ],
