@@ -1,10 +1,10 @@
 'use strict';
 
-const express = require('express');
-const path = require('path');
-const morgan = require('morgan');
-const cors = require('cors');
-const helmet = require('helmet');
+const express     = require('express');
+const path        = require('path');
+const morgan      = require('morgan');
+const cors        = require('cors');
+const helmet      = require('helmet');
 const compression = require('compression');
 
 const app = express();
@@ -34,7 +34,7 @@ app.use(helmet());
 app.use(helmet.noCache());
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ['\'self\''],
     imgSrc: ['*'],
     mediaSrc: ['*']
   }
