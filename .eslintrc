@@ -1,18 +1,29 @@
 {
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:unicorn/recommended"
+  ],
+  "plugins": [
+    "unicorn"
+  ],
   "env": {
     "node": true,
     "browser": true,
-    "commonjs": true,
     "es6": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "script"
   },
   "rules": {
     "strict": "error",
     "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "eqeqeq": "error",
+    "no-var": "error",
+    "camelcase": "error",
+    "spaced-comment": "warn",
+    "block-spacing": "warn",
+    "unicorn/prevent-abbreviations": "off"
   }
 }
