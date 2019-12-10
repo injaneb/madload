@@ -1,0 +1,46 @@
+{
+  "name": "madload",
+  "version": "1.1.0",
+  "description": "API for downloading media.",
+  "author": "Osama",
+  "license": "MIT",
+  "repository": "osamaify/madload",
+  "main": "app.js",
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "gulp watch",
+    "lint": "eslint",
+    "update:ytdl": "node update-youtube-dl.js"
+  },
+  "keywords": [
+    "MadLoad",
+    "Download"
+  ],
+  "dependencies": {
+    "compression": "~1.7.4",
+    "cors": "~2.8.5",
+    "ejs": "~2.7.4",
+    "express": "~4.17.1",
+    "helmet": "~3.21.2",
+    "morgan": "~1.9.1",
+    "youtube-dl": "~2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-plugin-unicorn": "^14.0.1",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-eslint": "^6.0.0",
+    "gulp-livereload": "^4.0.2",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-noop": "^1.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-terser": "^1.2.0",
+    "node-sass": "^4.13.0"
+  }
+}
